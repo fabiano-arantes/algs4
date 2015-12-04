@@ -1,6 +1,5 @@
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Digraph;
-import edu.princeton.cs.algs4.StdIn;
 import edu.princeton.cs.algs4.ST;
 import edu.princeton.cs.algs4.DirectedCycle;
 import java.util.LinkedList;  
@@ -39,7 +38,7 @@ public class WordNet {
         
         //read synset list
         In inSynsets = new In(synsetsFile);         
-        while(inSynsets.hasNextLine())
+        while (inSynsets.hasNextLine())
         {
             ++synsetCount;
             
@@ -52,11 +51,11 @@ public class WordNet {
             String[] n = a[1].split(" ");
             
             //fill symbol table noun -> struct
-            for(int j = 0; j < n.length; ++j)
+            for (int j = 0; j < n.length; ++j)
             {
                 LinkedList<Integer> ids;
                 
-                if(st.contains(n[j]))
+                if (st.contains(n[j]))
                 {
                     ids = st.get(n[j]);
                 }    
@@ -74,20 +73,20 @@ public class WordNet {
         return synsetCount;
     }
         
-    private void processHypernyms(int synsetCount,String hypernymsFile)
+    private void processHypernyms(int synsetCount, String hypernymsFile)
     {
                 //create wordnet
         wnet = new Digraph(synsetCount);
         
         //fill digraph with wordnet edges
         In inHypernyms = new In(hypernymsFile);
-        while(inHypernyms.hasNextLine())
+        while (inHypernyms.hasNextLine())
         {
             String[] a = inHypernyms.readLine().split(",");
             
             int v = Integer.parseInt(a[0]);
             
-            for(int i = 1; i < a.length; ++i)
+            for (int i = 1; i < a.length; ++i)
             {
                 wnet.addEdge(v, Integer.parseInt(a[i]));
             }
@@ -95,7 +94,7 @@ public class WordNet {
         
         //detect directed cycle
         DirectedCycle dc = new DirectedCycle(wnet);
-        if(dc.hasCycle())
+        if (dc.hasCycle())
         {
             throw new java.lang.IllegalArgumentException("Invalid WordNet: cycle detected");
         }
@@ -105,10 +104,10 @@ public class WordNet {
         
         //create array id -> struct
         nouns = new String[wnet.V()];
-        for(String synset: st.keys())
+        for (String synset: st.keys())
         {
             LinkedList<Integer> ids = st.get(synset);
-            for(int id: ids)
+            for (int id: ids)
             {
                 nouns[id] = synset;
             }
@@ -145,12 +144,12 @@ public class WordNet {
             throw new java.lang.NullPointerException("Ivalid nounB");
         }
         
-        if(!st.contains(nounA))
+        if (!st.contains(nounA))
         {
             throw new java.lang.IllegalArgumentException("nounA is invalid WordNet noun");
         }
            
-        if(!st.contains(nounB))
+        if (!st.contains(nounB))
         {
             throw new java.lang.IllegalArgumentException("nounB is invalid WordNet noun");
         }

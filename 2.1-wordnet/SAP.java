@@ -35,7 +35,7 @@ public class SAP {
     
     private boolean isValid(Iterable<Integer> v) 
     {
-        if(v == null)
+        if (v == null)
         {
             return false;
         }
@@ -78,9 +78,9 @@ public class SAP {
         while(!q.isEmpty())
         {
             int a = q.dequeue();
-            for(int b: G.adj(a))
+            for (int b: G.adj(a))
             {
-                if(marked[b])
+                if (marked[b])
                 {
                     int length = distTo[b] + distTo[a] + 1;
                     shortestPath sp = new shortestPath();
@@ -119,19 +119,19 @@ public class SAP {
         
         LinkedList<Integer> ancestors = new LinkedList<Integer>();
         
-        for(int i = 0; i < G.V(); ++i)
+        for (int i = 0; i < G.V(); ++i)
         {
-            if(bfsv.hasPathTo(i) && (bfsw.hasPathTo(i)))
+            if (bfsv.hasPathTo(i) && (bfsw.hasPathTo(i)))
             {
                 ancestors.add(i);
             }
         }
         
-        for(int p: ancestors)
+        for (int p: ancestors)
         {
             int path = bfsv.distTo(p) + bfsw.distTo(p);
             
-            if(path < shortestPath)
+            if (path < shortestPath)
             {
                 shortestPath = path;
                 shortestAncestor = p;
@@ -141,7 +141,7 @@ public class SAP {
         shortestPath sp = new shortestPath();
  
         sp.ancestor = shortestAncestor;
-        if(shortestPath != Integer.MAX_VALUE)
+        if (shortestPath != Integer.MAX_VALUE)
         {
             sp.length = shortestPath;        
         }
@@ -158,7 +158,7 @@ public class SAP {
     { 
         shortestPath sp = findShortestPath(v, w);
                 
-        if(sp != null)
+        if (sp != null)
         {
             return sp.length;
         }
@@ -171,7 +171,7 @@ public class SAP {
     {  
         shortestPath sp = findShortestPath(v, w);
                 
-        if(sp != null)
+        if (sp != null)
         {
             return sp.ancestor;
         }
@@ -212,25 +212,21 @@ public class SAP {
 */
 
 //----- old mode without BFS
-
 import edu.princeton.cs.algs4.Digraph;
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Queue;
-import edu.princeton.cs.algs4.BreadthFirstDirectedPaths;
-import java.util.LinkedList;  
-import java.util.Arrays;    
-
-class shortestPath
-{
-    int ancestor;
-    int length;
-}
 
 public class SAP {
-    private int depth[];
+    private int[] depth;
     private Digraph G;
     private int root;
     
+    class ShortestPath
+    {
+        private int ancestor;
+        private int length;
+    }
+
     // constructor takes a digraph (not necessarily a DAG)
     public SAP(Digraph G)
     {
@@ -249,12 +245,12 @@ public class SAP {
     
     private boolean isValid(Iterable<Integer> v) 
     {
-        if(v == null)
+        if (v == null)
         {
             return false;
         }
         
-        for (Integer integer : v) 
+        for (int integer : v) 
         {
             if (!isValid(integer)) 
             {
@@ -265,7 +261,7 @@ public class SAP {
         return true;
     }
     
-    private shortestPath findShortestPath(int v, int w)
+    private ShortestPath findShortestPath(int v, int w)
     {
         if (!isValid(v))
         {
@@ -278,8 +274,8 @@ public class SAP {
         }
         
         Queue<Integer> q = new Queue<Integer>();
-        boolean marked[] = new boolean[G.V()];
-        int distTo[] = new int[G.V()];
+        boolean[] marked = new boolean[G.V()];
+        int[] distTo = new int[G.V()];
         
         q.enqueue(v);
         q.enqueue(w);
@@ -289,15 +285,15 @@ public class SAP {
         distTo[v] = 0;
         distTo[w] = 0;        
         
-        while(!q.isEmpty())
+        while (!q.isEmpty())
         {
             int a = q.dequeue();
-            for(int b: G.adj(a))
+            for (int b: G.adj(a))
             {
-                if(marked[b])
+                if (marked[b])
                 {
                     int length = distTo[b] + distTo[a] + 1;
-                    shortestPath sp = new shortestPath();
+                    ShortestPath sp = new ShortestPath();
                     
                     sp.ancestor = b;
                     sp.length = length;
@@ -327,9 +323,9 @@ public class SAP {
             throw new java.lang.NullPointerException("Ivalid w parameter");
         }
         
-        shortestPath sp = findShortestPath(v, w);
+        ShortestPath sp = findShortestPath(v, w);
                 
-        if(sp != null)
+        if (sp != null)
         {
             return sp.length;
         }
@@ -350,9 +346,9 @@ public class SAP {
             throw new java.lang.NullPointerException("Ivalid w parameter");
         }
         
-        shortestPath sp = findShortestPath(v, w);
+        ShortestPath sp = findShortestPath(v, w);
                 
-        if(sp != null)
+        if (sp != null)
         {
             return sp.ancestor;
         }
@@ -376,19 +372,19 @@ public class SAP {
         int shortestLen = G.V() + 1;
         int len = -1;
         
-        for(int iv: v)
+        for (int iv: v)
         {
-            for(int iw: w)
+            for (int iw: w)
             {
                 len = length(iv, iw);
-                if((len > 0) && (len < shortestLen))
+                if ((len > 0) && (len < shortestLen))
                 {
                     shortestLen = len;
                 }
             }
         }
         
-        if(shortestLen < G.V() + 1)
+        if (shortestLen < G.V() + 1)
         {
             return shortestLen;
         }
@@ -411,19 +407,19 @@ public class SAP {
         
         int ancestor;
         int len;
-        shortestPath sp;
-        shortestPath maxsp = new shortestPath();
+        ShortestPath sp;
+        ShortestPath maxsp = new ShortestPath();
         
         maxsp.length = G.V() + 1;
         maxsp.ancestor = -1;
         
-        for(int iv: v)
+        for (int iv: v)
         {
-            for(int iw: w)
+            for (int iw: w)
             {
                 sp = findShortestPath(iv, iw);
 
-                if((sp.length > 0) && (sp.length < maxsp.length))
+                if ((sp.length > 0) && (sp.length < maxsp.length))
                 {
                    maxsp.length = sp.length;
                    maxsp.length = sp.ancestor;

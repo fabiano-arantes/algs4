@@ -3,7 +3,7 @@ import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.Queue;
 
 public class SAP {
-    private int depth[];
+    private int[] depth;
     private Digraph G;
     
     // constructor takes a digraph (not necessarily a DAG)
@@ -14,25 +14,25 @@ public class SAP {
     
     private int distTo(int v, int w)
     {
-        if(v == w)
+        if (v == w)
         {
             return 0;
         }
         
         Queue<Integer> q = new Queue<Integer>();
-        int distTo[] = new int[G.V()];
+        int[] distTo = new int[G.V()];
 
         q.enqueue(v);
         distTo[v] = 0;
         
-        while(!q.isEmpty())
+        while (!q.isEmpty())
         {
             int a = q.dequeue();
             
-            for(int b: G.adj(a))
+            for (int b: G.adj(a))
             {
                 distTo[b] = distTo[a] + 1;
-                if(b == w)
+                if (b == w)
                 {
                     return distTo[b];
                 }
@@ -52,7 +52,7 @@ public class SAP {
         int distV;
         int distW;
         
-        if(ancestor >= 0)
+        if (ancestor >= 0)
         {
             distV = distTo(v, ancestor);
             distW = distTo(w, ancestor);
@@ -67,7 +67,7 @@ public class SAP {
     public int ancestor(int v, int w)
     {
         Queue<Integer> q = new Queue<Integer>();
-        boolean marked[] = new boolean[G.V()];
+        boolean[] marked = new boolean[G.V()];
         int ancestor;
         
         q.enqueue(v);
@@ -75,12 +75,12 @@ public class SAP {
         marked[v] = true;
         marked[w] = true;
         
-        while(!q.isEmpty())
+        while (!q.isEmpty())
         {
             int a = q.dequeue();
-            for(int b: G.adj(a))
+            for (int b: G.adj(a))
             {
-                if(marked[b])
+                if (marked[b])
                 {
                     return b;
                 }
@@ -99,20 +99,20 @@ public class SAP {
         int shortest = G.V() + 1;
         int len;
         
-        for(Integer iv: v)
+        for (int iv: v)
         {
-            for(Integer iw: w)
+            for (int iw: w)
             {
                 len = length(iv, iw);
                 
-                if((len > 0) && (len < shortest))
+                if ((len > 0) && (len < shortest))
                 {
                     shortest = len;
                 }
             }
         }
         
-        if(shortest < (G.V() + 1))
+        if (shortest < (G.V() + 1))
         {
             return shortest;
         }

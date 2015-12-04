@@ -17,13 +17,13 @@ public class Outcast
        int d, i, j, k;
        String ret = "";
 
-       for(i = 0; i < nouns.length; ++i)
+       for (i = 0; i < nouns.length; ++i)
        {
            d = 0;
            
-           for(j = 0; j < nouns.length; ++j)
+           for (j = 0; j < nouns.length; ++j)
            {
-               if(i == j)
+               if (i == j)
                {
                    continue;
                }
@@ -31,7 +31,7 @@ public class Outcast
                d += wnet.distance(nouns[i], nouns[j]);
            }
            
-           if(d > dmax)
+           if (d > dmax)
            {
                dmax = d;
                ret = nouns[i];
